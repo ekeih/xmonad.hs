@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# a customizable dmenu
+
+OPTIONS="Time
+Energy
+Sound
+WLAN
+Lock
+Suspend
+Shutdown"
+
+SHUTDOWN_OPTIONS="Cancel
+Shutdown"
+
+parse_shutdown () {
+    case "$1" in
+        "Shutdown") systemctl poweroff;;
+    esac
+}
+
+parse () {
+    case "$1" in
+        "Time") notify-send -a "System" "$(date +%H:%M:%S)";;
+        "Energy") notify-send -a "System" "$(acpi)";;
+        "Sound")
+            volume=$(amixer get Master | tail -n 1 | sed 's/.*\[\([0-9]\{1,3\}%\)\].*/\1/')
+            status=$(amixer get Master | tail -n 1 | sed 's/.*\[\(on\|off\)\].*/\1/')
+            notify-send -a "amixer" "Sound:" "${volume} ${status}"
+            ;;
+        "WLAN") notify-send -a "System" "$(iwgetid wlan0 | awk '{print $2}')";;
+        "Lock") ~/.xmonad/data/bin/lockscreen;;
+        "Shutdown") echo -e "${SHUTDOWN_OPTIONS}" | dmenu -i -p "Shutdown" | { read input; parse_shutdown "${input}"; };;
+        "");;
+        *) notify-send -a "System" -u critical "Unknown command";;
+    esac
+}
+
+echo -e "${OPTIONS}" | dmenu -i -p "Options" | { read input; parse "${input}"; }
