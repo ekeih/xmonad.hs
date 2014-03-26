@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-hook=${1}
+hook=$1
 
 set_background () {
     feh -z -r --no-fehbg --bg-fill $1
 }
 
-case ${hook} in
+case $hook in
     "startup")
         set_background $2
         xsetroot -cursor_name left_ptr
