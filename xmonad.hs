@@ -56,7 +56,7 @@ confMine = defaultConfig {
     manageHook          = confManageHook,
     modMask             = confMod,
     normalBorderColor   = confColorBorder,
-    startupHook         = execScriptHook "startup",
+    startupHook         = confStartupHook,
     terminal            = confTerminal,
     workspaces          = confWorkspaces
 } `additionalKeysP` confKeys `removeKeysP` confRemoveKeys
@@ -81,6 +81,8 @@ confFocusFollowsMouse   = False
 confHomeDir             = "/home/ekeih/"
 confXMonadDir           = confHomeDir ++ ".xmonad/"
 confBinDir              = confXMonadDir ++ "data/bin/"
+confBackgroundImage     = confHomeDir ++ "Bilder/backgrounds/*"
+confStartupHook         = execScriptHook $ "startup " ++ confBackgroundImage
 
 --------------------------------------------------
 -- Theme -----------------------------------------
@@ -195,7 +197,7 @@ confKeys =
         ("M-x",         spawn "dmenu_run"),
         ("M-s",         spawn $ confBinDir ++ "menu"),
         -- set random background
-        ("<XF86Launch1>", execScriptHook "background"),
+        ("<XF86Launch1>", execScriptHook $ "background " ++ confBackgroundImage),
         -- Workspaces - Grid movement
         ("M-<Up>",      planeMove  (Lines 2) Circular ToUp),
         ("M-S-<Up>",    planeShift (Lines 2) Circular ToUp),
