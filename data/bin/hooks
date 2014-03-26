@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+hook=${1}
+
+set_background () {
+    feh -z -r --no-fehbg --bg-fill $1
+    #~/Bilder/backgrounds/*
+}
+
+case ${hook} in
+    "startup")
+        date >> /tmp/hook.log
+        set_background $2
+        xsetroot -cursor_name left_ptr
+    ;;
+    "background") set_background $2;;
+esac
