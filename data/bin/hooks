@@ -10,6 +10,7 @@ case $hook in
     "startup")
         set_background $2
         xsetroot -cursor_name left_ptr
+        xcompmgr &
     ;;
     "background") set_background $2;;
 esac

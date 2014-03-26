@@ -28,6 +28,7 @@ You don't need them to use my configuration but some keybindings and scripts dep
 * feh - set a desktop background
 * scrot - a screenshot utility
 * imagemagick - command line tool to manipulate images
+* xcompmgr - composition manager for transparency
 
 ### Install requirements on Archlinux
 ```bash
