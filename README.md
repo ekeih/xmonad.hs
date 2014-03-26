@@ -26,6 +26,8 @@ You don't need them to use my configuration but some keybindings and scripts dep
 * pcmanfm - a graphical file browser
 * autorandr - automatic save and restore for monitor setups
 * feh - set a desktop background
+* scrot - a screenshot utility
+* imagemagick - command line tool to manipulate images
 
 ### Install requirements on Archlinux
 ```bash
