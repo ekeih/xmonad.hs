@@ -4,7 +4,7 @@ After several years with awesome I switched to xmonad to try something new. And 
 
 ## Introduction
 
-My configuration creates 18 workspaces in two rows. You can use Win+[1-9] to use the first row and Win+F[1-9] for the second one. You can also use Win+[Uo|Down|Left|Right] to move between workspaces in this grid.
+My configuration creates 18 workspaces in two rows. You can use Win+[1-9] to use the first row and Win+F[1-9] for the second one. You can also use Win+[Up|Down|Left|Right] to move between workspaces in this grid.
 
 This configuration does not provide a statusbar like xmobar or dzen2, instead the complete space is used by your windows. But it should be easy to add a statusbar, just check the xmonad website or other example configurations.
 
