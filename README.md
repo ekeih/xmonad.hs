@@ -12,7 +12,7 @@ I also don't use a tray. If you need one you could try trayer or stalonetray.
 I use the keybinding Win+s to access information that is usually provided by a statusbar or a tray. It spawns a dmenu with some shortcuts. Check ~/.xmonad/data/bin/menu for more information.
 
 
-## Requirements (testet version)
+## Requirements (tested version)
 * xmonad (0.11)
 * xmonad-contrib (0.11.2)
 
@@ -41,7 +41,7 @@ pacman -S xmonad xmonad-contrib
     git clone https://github.com/ekeih/xmonad.hs.git .xmonad
 
 * Edit ~/.xmonad/xmonad.hs. Set confHomeDir = "/home/ekeih/" to your home directory.
-* May adjust confTerminal.
+* Adjust confTerminal if necessary.
 * Explore the xmonad.hs file and scripts in ~/.xmonad/data/bin/ and adjust paths and stuff to your needs.
 * Configure your loginmanager to start xmonad at login.
 * Logout.
