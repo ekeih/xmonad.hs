@@ -1,7 +1,8 @@
-# My xmonad.hs
+# My xmonad.hs and related stuff
+
+After several years with awesome I switched to xmonad to try something new. And I love it. In my humble opinion it is much more awesome than awesome itself. But thats a matter of taste.
 
 ## Introduction
-After several years with awesome I switched to xmonad to try something new. And I love it. In my humble opinion it is much more awesome than awesome itself. But thats a matter of taste.
 
 My configuration creates 18 workspaces in two rows. You can use Win+[1-9] to use the first row and Win+F[1-9] for the second one. You can also use Win+<Arrow-Keys> to move between workspaces in this grid.
 
