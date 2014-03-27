@@ -12,6 +12,13 @@ import XMonad.StackSet              (view, shift)
 import XMonad.Util.EZConfig         (additionalKeysP, removeKeysP)
 
 --------------------------------------------------
+-- Prompt ----------------------------------------
+--------------------------------------------------
+import XMonad.Prompt                (defaultXPConfig)
+import XMonad.Prompt.Shell          (shellPrompt)
+import XMonad.Prompt.XMonad         (xmonadPrompt)
+
+--------------------------------------------------
 -- Hooks -----------------------------------------
 --------------------------------------------------
 import XMonad.Hooks.Place           (placeHook, smart)
@@ -181,6 +188,9 @@ confKeys =
     [
         -- Window-Grid
         ("M-g", goToSelected defaultGSConfig),
+        -- prompt
+        ("M-c", shellPrompt defaultXPConfig),
+        ("M-v", xmonadPrompt defaultXPConfig),
         -- media keys
         ("<XF86AudioMute>",         spawn "amixer set Master toggle; notify-send -a amixer $(amixer get Master | tail -n 1 | sed 's/.*\\[\\(on\\|off\\)\\].*/Sound: \\1/')"),
         ("<XF86AudioRaiseVolume>",  spawn "amixer set Master 2+; notify-send -a amixer $(amixer get Master | tail -n 1 | sed 's/.*\\[\\([0-9]\\{1,3\\}%\\)\\].*/Sound: \\1/')"),
