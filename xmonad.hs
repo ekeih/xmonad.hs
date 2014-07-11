@@ -23,6 +23,7 @@ import XMonad.Prompt.XMonad         (xmonadPrompt)
 --------------------------------------------------
 import XMonad.Hooks.Place           (placeHook, smart)
 import XMonad.Hooks.Script          (execScriptHook)
+import XMonad.Hooks.ScreenCorners   (ScreenCorner(..), addScreenCorner, screenCornerEventHook)
 
 --------------------------------------------------
 -- Actions ---------------------------------------
@@ -30,6 +31,7 @@ import XMonad.Hooks.Script          (execScriptHook)
 import XMonad.Actions.GridSelect    (goToSelected, defaultGSConfig)
 import XMonad.Actions.Plane         (Lines(..), Limits(Circular), Direction(ToRight, ToLeft, ToUp, ToDown), planeMove, planeShift)
 import XMonad.Actions.UpdatePointer (PointerPosition(Relative), updatePointer)
+import XMonad.Actions.CycleWS       (nextWS)
 
 --------------------------------------------------
 -- Layouts ---------------------------------------
@@ -64,6 +66,7 @@ confMine = defaultConfig {
     modMask             = confMod,
     normalBorderColor   = confColorBorder,
     startupHook         = confStartupHook,
+    handleEventHook     = confEventHook,
     terminal            = confTerminal,
     workspaces          = confWorkspaces
 } `additionalKeysP` confKeys `removeKeysP` confRemoveKeys
@@ -84,12 +87,15 @@ confTerminalTemp    = "urxvt -name tempTerm"
 -- Settings --------------------------------------
 --------------------------------------------------
 confMod                 = mod4Mask
-confFocusFollowsMouse   = False
+confFocusFollowsMouse   = True
 confHomeDir             = "/home/ekeih/"
 confXMonadDir           = confHomeDir ++ ".xmonad/"
 confBinDir              = confXMonadDir ++ "data/bin/"
-confBackgroundImage     = confHomeDir ++ "Bilder/backgrounds/*"
-confStartupHook         = execScriptHook $ "startup " ++ confBackgroundImage
+confBackgroundImage     = confHomeDir ++ "Bilder/backgrounds/meine"
+confStartupHook         = do
+                            addScreenCorner SCLowerLeft (goToSelected defaultGSConfig)
+                            execScriptHook $ "startup " ++ confBackgroundImage
+confEventHook e         = do screenCornerEventHook e
 
 --------------------------------------------------
 -- Theme -----------------------------------------
@@ -128,13 +134,14 @@ confShowWName = defaultSWNConfig {
 -- Workspaces ------------------------------------
 --------------------------------------------------
 confWorkspaces              = confStandardWorkspaces ++ confAdditionalWorkspaces
-confStandardWorkspaces      = ["Chat", "Mail", "Web", "Term", "Doc", "Notes", "Media", "Sandbox",    "Misc"             ]
-confAdditionalWorkspaces    = ["1",    "2",    "3",   "4",    "Uni", "TheGI", "Prog2", "Stochastik", "Rechnersicherheit"]
+confStandardWorkspaces      = ["Chat", "Mail", "Web", "Term", "Doc", "Notes", "Media", "Sandbox", "Misc" ]
+confAdditionalWorkspaces    = ["1",    "2",    "3",   "4",    "5",   "6",     "7",     "8",       "9"    ]
 
 --------------------------------------------------
 -- Matching Rules --------------------------------
 --------------------------------------------------
 confManageHook = composeAll $ urxvt:tempTerm:concat [
+    [ className =? c --> doFloat            | c <- classFloat   ],
     [ className =? c --> doShift   "Chat"   | c <- classChat    ],
     [ className =? c --> doShift   "Mail"   | c <- classMail    ],
     [ className =? c --> doShift   "Web"    | c <- classWeb     ],
@@ -144,10 +151,11 @@ confManageHook = composeAll $ urxvt:tempTerm:concat [
     [ className =? c --> viewShift "Media"  | c <- classMedia   ],
     [ className =? c --> viewShift "Misc"   | c <- classMisc    ]
     ] where viewShift = doF . liftM2 (.) view shift
+            classFloat  = ["de-tuberlin-aipa-prog2-billabong-controller-Main"]
             classChat   = ["Pidgin", "Mumble", "Xchat", "Skype"]
             classMail   = ["Thunderbird"]
             classWeb    = ["Firefox", "Chromium"]
-            classTerm   = ["Terminator"]
+            classTerm   = ["Terminator", "ADT", "Java"]
             classDoc    = ["Okular", "LibreOffice", "libreoffice-startcenter", "Anki"]
             classNotes  = ["Xournal"]
             classMedia  = ["Vlc"]
@@ -162,21 +170,11 @@ confLayout =
     onWorkspace "Chat"              confChatLayout              $
     onWorkspace "Mail"              confMailLayout              $
     onWorkspace "Doc"               confDocLayout               $
-    onWorkspace "Uni"               confUniLayout               $
-    onWorkspace "TheGI"             confTheGILayout             $
-    onWorkspace "Prog2"             confProg2Layout             $
-    onWorkspace "Stochastik"        confStochastikLayout        $
-    onWorkspace "Rechnersicherheit" confRechnersicherheitLayout $
     workspaceDir confHomeDir (confDefaultLayout)
     where
         confChatLayout              = workspaceDir (confHomeDir ++ "Dokumente") (noBorders(withIM (1%6) (Title "Buddy List") (confTabbedLayout ||| Mirror(Tall 1 (3/100) (1/2)))))
         confMailLayout              = workspaceDir (confHomeDir ++ "Dokumente") ((centerMaster confTabbedLayout) ||| confTabbedLayout ||| Grid)
-        confDocLayout               = workspaceDir (confHomeDir ++ "Dokumente")                             (confDefaultLayout)
-        confUniLayout               = workspaceDir (confHomeDir ++ "Studium/6_Semester")                    (confDefaultLayout)
-        confTheGILayout             = workspaceDir (confHomeDir ++ "Studium/6_Semester/TheGI2")             (confDefaultLayout)
-        confProg2Layout             = workspaceDir (confHomeDir ++ "Studium/6_Semester/Prog2")              (confDefaultLayout)
-        confStochastikLayout        = workspaceDir (confHomeDir ++ "Studium/6_Semester/Stochastik")         (confDefaultLayout)
-        confRechnersicherheitLayout = workspaceDir (confHomeDir ++ "Studium/6_Semester/Rechnersicherheit")  (confDefaultLayout)
+        confDocLayout               = workspaceDir (confHomeDir ++ "Dokumente") (confDefaultLayout)
         confDefaultLayout           = smartBorders(confTabbedLayout ||| Tall 1 (3/100) (1/2) ||| Mirror(Tall 1 (3/100) (1/2)) ||| Grid ||| confCenterMasterGrid ||| Full)
         confTabbedLayout            = noBorders(simpleTabbed)
         confCenterMasterGrid        = smartBorders(centerMaster Grid)
